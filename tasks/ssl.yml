@@ -1,0 +1,23 @@
+
+- name: Ensure ssl directory exists
+  file:
+    path: '/etc/ssl/private'
+    state: directory
+
+- name: Ensure dhparams.pem exists
+  shell: openssl dhparam -out /etc/ssl/private/proftpd-dhparams.pem 2048
+  args:
+    creates: /etc/ssl/private/proftpd-dhparams.pem
+
+- name: Install ssl certificate
+  notify: restart proftpd
+  template:
+    src: 'ssl/{{ item }}'
+    dest: '/etc/ssl/private/{{ item }}'
+    owner: root
+    group: root
+    mode: '0400'
+  with_items:
+    - 'proftpd-certificate.key'
+    - 'proftpd-certificate.crt'
+    - 'proftpd-ca.crt'

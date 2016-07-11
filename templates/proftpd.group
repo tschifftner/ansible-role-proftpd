@@ -1,0 +1,6 @@
+{# group:x:gid:username #}
+{% if proftpd_users is defined and proftpd_users is iterable %}
+{% for user in proftpd_users %}
+{{ user.user }}:{{ user.password }}:{{ user.uid | default(_proftpd_user.uid) }}:{{ user.gid | default(_proftpd_group.gid) }}:{{ user.home }}:{{ user.shell | default('/bin/false') }}
+{% endfor %}
+{% endif %}

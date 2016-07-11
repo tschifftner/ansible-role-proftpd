@@ -1,0 +1,27 @@
+---
+proftpd_working_dir: '/opt/proftpd'
+proftpd_download_url: 'ftp://ftp.proftpd.org/distrib/source/proftpd-1.3.5a.tar.gz'
+
+proftpd_configure_flags: '--disable-auth-pam'
+
+proftpd_server_name: 'ambimax® FTP Server'
+proftpd_user: 'proftpd'
+proftpd_group: 'proftpd'
+
+proftpd_users: []
+#  - user: 'username'
+#    password: '$1$ewFdJ8G1$ZUPB4GjPF8IiKZvg/1SY/.'
+#    home: '/tmp'
+#    state: absent
+
+# ssl
+proftpd_ssl_certificate_type: 'rsa' # rsa|ec supported
+proftpd_ssl_certificate: ''
+proftpd_ssl_certificate_key: ''
+proftpd_ssl_certificate_ca: ''
+
+#proftpd_ssl_ec_certficiate: ''
+#proftpd_ssl_ec_certficiate_key: ''
+#proftpd_ssl_ec_certficiate_ca: ''
+
+proftpd_ssl_required: "{{ true if proftpd_ssl_certificate != '' else false }}"

@@ -1,0 +1,53 @@
+---
+- name: Set global config
+  template:
+    src: 'config/proftpd.conf'
+    dest: '/usr/local/etc/proftpd.conf'
+
+- name: Ensure config directories exists
+  file:
+    path: '{{ item }}'
+    state: directory
+  with_items:
+    - /etc/proftpd/
+    - /etc/proftpd/conf.d/
+
+- name: Link to etc folder
+  file:
+    src: '/usr/local/etc/proftpd.conf'
+    dest: '/etc/proftpd/proftpd.conf'
+    state: link
+
+- name: Set special configs
+  template:
+    src: 'config/{{ item }}'
+    dest: '/etc/proftpd/{{ item }}'
+  with_items:
+    - modules.conf
+    - tls.conf
+    - virtuals.conf
+
+- name: Add /bin/false to shell
+  lineinfile:
+    dest: '/etc/shells'
+    regexp: '^/bin/false'
+    line: '/bin/false'
+
+- name: Ensure home directories exist
+  file:
+    path: '{{ item.home }}'
+    state: directory
+    owner: '{{ item.uid | default(_proftpd_user.uid) }}'
+    group: '{{ item.gid | default(_proftpd_group.gid) }}'
+    mode: '{{ item.mode | default(omit) }}'
+  when: item.home is defined and (item.state is not defined or item.state != 'absent')
+  with_items: proftpd_users
+
+- name: write users to file
+  notify: restart proftpd
+  template:
+    src: 'proftpd.passwd'
+    dest: '/etc/proftpd/.users'
+    owner: root
+    group: root
+    mode: '0400'

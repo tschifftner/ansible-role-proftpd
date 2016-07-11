@@ -1,0 +1,64 @@
+---
+
+- name: Ensurce working dir exists
+  file:
+    path: '{{ proftpd_working_dir }}'
+    state: directory
+
+- name: Unarchive file
+  unarchive:
+    src: '{{ proftpd_download_url }}'
+    dest: '{{ proftpd_working_dir }}'
+    copy: no
+    creates: '{{ proftpd_working_dir }}/proftpd-{{ proftpd_version }}'
+
+- name: 'Configure and install proftpd'
+  register: _proftpd_installed
+  shell: ./configure {{ proftpd_configure_flags }} && make && make install
+  args:
+    chdir: '{{ proftpd_working_dir }}/proftpd-{{ proftpd_version }}'
+    creates: '/usr/local/sbin/proftpd'
+
+- name: Ensure proftpd_group exists
+  register: _proftpd_group
+  group:
+    name: '{{ proftpd_group }}'
+    system: no
+    state: present
+
+- name: Ensure proftpd_user exists
+  register: _proftpd_user
+  user:
+    name: '{{ proftpd_user }}'
+    system: no
+    group: '{{ proftpd_group }}'
+    home: /dev/null
+    shell: /etc
+    state: present
+
+- name: 'Set init.d script'
+  template:
+    src: proftpd.initd
+    dest: /etc/init.d/proftpd
+    owner: root
+    group: root
+    mode: 0755
+  when: ansible_distribution == 'Ubuntu'
+
+- name: 'Set permissions on systemd unit file'
+  template:
+    src: proftpd.service
+    dest: /lib/systemd/system/proftpd.service
+    owner: root
+    group: root
+    mode: 0751
+  notify: reload systemd
+  when: ansible_distribution == 'Debian'
+
+- name: Ensure log folder exists and is writable
+  file:
+    path: '/var/log/proftpd'
+    state: directory
+    owner: '{{ proftpd_user }}'
+    group: '{{ proftpd_group }}'
+    mode: '0755'

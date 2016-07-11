@@ -1,0 +1,10 @@
+- name: reload systemd
+  command: systemctl daemon-reload
+
+- name: reload initctl
+  command: initctl reload-configuration
+
+- name: restart proftpd
+  service:
+    name: 'proftpd'
+    state: restarted

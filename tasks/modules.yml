@@ -1,0 +1,46 @@
+---
+
+- name: Ensure modules directory exists
+  file:
+    path: '/usr/lib/proftpd'
+    state: directory
+
+- name: Copy all modules to directory on installation
+  copy:
+    src: '{{ proftpd_working_dir }}/proftpd-{{ proftpd_version }}/contrib/{{ item }}'
+    dest: '/usr/lib/proftpd/{{ item }}'
+    copy: no
+  with_items:
+    - mod_ban.so
+    - mod_copy.so
+    - mod_ctrls_admin.so
+    - mod_deflate.so
+    - mod_dynmasq.so
+    - mod_exec.so
+    - mod_facl.so
+    - mod_ifsession.so
+    - mod_ifversion.so
+    - mod_load.so
+    - mod_quotatab_file.so
+    - mod_quotatab_radius.so
+    - mod_quotatab.so
+    - mod_quotatab_sql.so
+    - mod_radius.so
+    - mod_ratio.so
+    - mod_rewrite.so
+    - mod_sftp_pam.so
+    - mod_sftp.so
+    - mod_sftp_sql.so
+    - mod_shaper.so
+    - mod_site_misc.so
+    - mod_sql_mysql.so
+    - mod_sql_passwd.so
+    - mod_sql.so
+    - mod_tls_memcache.so
+    - mod_tls.so
+    - mod_unique_id.so
+    - mod_wrap2_file.so
+    - mod_wrap2.so
+    - mod_wrap2_sql.so
+    - mod_wrap.so
+  when: _proftpd_installed.changed

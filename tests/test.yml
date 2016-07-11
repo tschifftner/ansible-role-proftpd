@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  remote_user: root
+
+  vars:
+    proftpd_users:
+      - name: joe
+        password: '$1$cZIFAH90$256idgiw.eo9RNieuXUr20' # test
+        home: '/home/joe'
+
+  roles:
+    - ansible-role-proftpd
