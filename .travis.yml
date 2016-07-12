@@ -65,6 +65,7 @@ after_failure:
   - ansible --version
   - ansible-lint --version
   - tests/ftp-test.sh
+  - id proftpd
 
 notifications:
   slack: ambimax:2MlPTX9bY9aPxCPhJGxHKIT6

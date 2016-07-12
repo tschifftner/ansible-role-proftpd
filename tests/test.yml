@@ -4,9 +4,11 @@
 
   vars:
     proftpd_users:
-      - name: joe
+      - user: joe
         password: '$1$cZIFAH90$256idgiw.eo9RNieuXUr20' # test
-        home: '/home/joe'
+        home: '/home/joe/ftp'
+        uid: '1010'
+        gid: '1012'
 
   roles:
     - ansible-role-proftpd
