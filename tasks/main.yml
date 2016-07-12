@@ -1,11 +1,14 @@
 ---
 
-- set_fact:
+- name: 'Set proftpd version fact'
+  set_fact:
     proftpd_version: "{{ proftpd_download_url | basename | replace('proftpd-', '') | replace('.tar.gz', '') }}"
 
 - include: install.yml
+  tags: ['proftpd-install']
 #- include: modules.yml No modules for compiled version...
 - include: configure.yml
+  tags: ['proftpd-configure']
 #- include: ssl.yml
 
 - name: start proftpd

@@ -41,7 +41,7 @@
     group: '{{ item.gid | default(_proftpd_group.gid) }}'
     mode: '{{ item.mode | default(omit) }}'
   when: item.home is defined and (item.state is not defined or item.state != 'absent')
-  with_items: proftpd_users
+  with_items: '{{ proftpd_users }}'
 
 - name: write users to file
   notify: restart proftpd

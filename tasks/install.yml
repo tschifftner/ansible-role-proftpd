@@ -42,7 +42,7 @@
     dest: /etc/init.d/proftpd
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   when: ansible_distribution == 'Ubuntu'
 
 - name: 'Set permissions on systemd unit file'
@@ -51,7 +51,7 @@
     dest: /lib/systemd/system/proftpd.service
     owner: root
     group: root
-    mode: 0751
+    mode: '0751'
   notify: reload systemd
   when: ansible_distribution == 'Debian'
 
