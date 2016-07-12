@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 FTPLOG=/tmp/ftplogfile
 ftp -inv <<! > $FTPLOG
-open web01.ambimax.de
-user trendyhairs test
+open localhost
+user joe test
 close
 quit
 !
