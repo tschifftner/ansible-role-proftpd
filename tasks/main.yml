@@ -9,12 +9,13 @@
 #- include: modules.yml No modules for compiled version...
 - include: configure.yml
   tags: ['proftpd-configure']
-#- include: ssl.yml
+- include: ssl.yml
 
 - name: start proftpd
   service:
     name: 'proftpd'
     state: started
     enabled: yes
+  changed_when: false # to make it idempotence
 
 
