@@ -5,7 +5,7 @@
     state: directory
 
 - name: Ensure dhparams.pem exists
-  shell: openssl dhparam -out /etc/ssl/private/proftpd-dhparams.pem 2048
+  command: openssl dhparam -out /etc/ssl/private/proftpd-dhparams.pem 2048
   args:
     creates: /etc/ssl/private/proftpd-dhparams.pem
 
