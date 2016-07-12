@@ -7,8 +7,8 @@
       - user: joe
         password: '$1$cZIFAH90$256idgiw.eo9RNieuXUr20' # test
         home: '/home/joe/ftp'
-        uid: '1010'
-        gid: '1012'
+        uid: '1006'
+        gid: '1007'
 
   roles:
     - ansible-role-proftpd
