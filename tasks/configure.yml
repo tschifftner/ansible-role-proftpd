@@ -1,5 +1,6 @@
 ---
 - name: Set global config
+  notify: restart proftpd
   template:
     src: 'config/proftpd.conf'
     dest: '/usr/local/etc/proftpd.conf'
@@ -19,6 +20,7 @@
     state: link
 
 - name: Set special configs
+  notify: restart proftpd
   template:
     src: 'config/{{ item }}'
     dest: '/etc/proftpd/{{ item }}'
