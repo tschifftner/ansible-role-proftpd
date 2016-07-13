@@ -1,5 +1,15 @@
 ---
+- name: 'Prepare upgrade if versions differ'
+  file:
+    path: "/usr/local/sbin/proftpd"
+    state: absent
+  when: current_proftpd_version != proftpd_version
 
+- name: 'Versions differ'
+  debug:
+    msg: "{{ current_proftpd_version}} != {{ proftpd_version }}"
+  when: current_proftpd_version != proftpd_version
+  
 - name: Ensurce working dir exists
   file:
     path: '{{ proftpd_working_dir }}'

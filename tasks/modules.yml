@@ -43,4 +43,3 @@
     - mod_wrap2.so
     - mod_wrap2_sql.so
     - mod_wrap.so
-  when: _proftpd_installed.changed
